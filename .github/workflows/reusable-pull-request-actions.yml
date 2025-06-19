@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu:latest
     secrets: inherit
     steps:
-      name: Pull request closed
+      name: Pull request closed new
       if: ${{ github.event.action == "closed" }}
       uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
       with:
@@ -40,7 +40,7 @@ jobs:
         gh_app_installation_ID: ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
         gh_app_secret_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       
-      name: Pull request opened
+      name: Pull request opened new
       if: ${{ github.event.action == "opened" || github.event.action == "reopened" }}
       uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
       with:
@@ -50,7 +50,7 @@ jobs:
         gh_app_installation_ID: ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
         gh_app_secret_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       
-      name: Close pull request
+      name: Pull request review requested new
       if: ${{ github.event.action == "review_requested" }}
       uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
       with:
