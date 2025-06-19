@@ -28,6 +28,7 @@ jobs:
 
   project-pull-requests:
     runs-on: ubuntu:latest
+    secrets: inherit
     steps:
       name: Pull request closed
       if: ${{ github.event.action == "closed" }}

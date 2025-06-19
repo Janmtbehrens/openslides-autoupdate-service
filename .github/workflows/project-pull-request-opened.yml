@@ -7,7 +7,7 @@ on:
 
 jobs:
   pull_request_opened:
-    name: Pull request opened
+    name: Pull request opened old
     uses: ./.github/workflows/project-automation.yml
     secrets: inherit
     with:

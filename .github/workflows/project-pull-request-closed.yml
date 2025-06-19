@@ -6,7 +6,7 @@ on:
 
 jobs:
   pull_request_closed:
-    name: Pull request closed
+    name: Pull request closed old
     uses: ./.github/workflows/project-automation.yml
     secrets: inherit
     with:
