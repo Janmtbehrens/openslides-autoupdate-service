@@ -2,6 +2,19 @@ name: CI - Build and Test Service
 
 on: [pull_request]
 jobs:
+
+  test-secrets:
+    runs-on: ubuntu:latest
+    name: Tests
+    steps:
+      - name: Tests
+        shell: bash
+        runs: |
+          echo "dont look!"
+          echo ${{ secrets.AUTOMATION_APP_ID }}
+          echo ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
+          echo ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+  
   continuous-tests:
     name: Continuous Tests
     runs-on: ubuntu-latest

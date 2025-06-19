@@ -27,6 +27,7 @@ jobs:
       branches: "main"
 
   test-secrets:
+    runs-on: ubuntu:latest
     name: Tests
     steps:
       - name: Tests
