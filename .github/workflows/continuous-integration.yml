@@ -2,19 +2,6 @@ name: CI - Build and Test Service
 
 on: [pull_request]
 jobs:
-
-  test-secrets:
-    runs-on: ubuntu:latest
-    name: Tests
-    steps:
-      - name: Tests
-        shell: bash
-        run: |
-          echo "dont look!"
-          echo ${{ secrets.AUTOMATION_APP_ID }}
-          echo ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
-          echo ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-  
   branch-test:
     runs-on: ubuntu:latest
     name: Tests
@@ -39,6 +26,21 @@ jobs:
     name: Continuous Tests
     runs-on: ubuntu-latest
     steps:
+    # https://stackoverflow.com/questions/58033366/how-to-get-the-current-branch-within-github-actions
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Test branch
+        if: startsWith('${{ steps.extract_branch.outputs.branch}}', '${{ inputs.branches }}')
+        run: echo "Branch worked"
+
+      - name: Checks
+        run: |
+          echo "${{ steps.extract_branch.outputs.branch}}"
+          echo "${{ inputs.branches }}"
+          
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
