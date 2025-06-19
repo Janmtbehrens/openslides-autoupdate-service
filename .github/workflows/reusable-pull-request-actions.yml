@@ -13,7 +13,7 @@ jobs:
     uses: Janmtbehrens/OpenSlides/.github/workflows/close-issues.yml@reusable-github-actions
     secrets: inherit
     with:
-      branches: "feature/*"
+      branches: "feature/.*"
   
   create-pr-for-staging:
     name: Close issues

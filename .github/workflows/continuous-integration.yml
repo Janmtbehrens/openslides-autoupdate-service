@@ -6,20 +6,6 @@ jobs:
     name: Continuous Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: Janmtbehrens/OpenSlides/dev/actions/branch-regex@reusable-github-actions
-        with:
-          regex: reusable-github-*
-        id: regex_match
-
-      - name: Test branch
-        if: startsWith('${{ steps.regex_match.outputs.match}}', 'reusable-github-*')
-        run: echo "Branch worked"
-
-      - name: Checks
-        run: |
-          echo "${{ steps.regex_match.outputs.match }}"
-          echo "${{ inputs.branches }}"
-
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
