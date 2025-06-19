@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Tests
         shell: bash
-        runs: |
+        run: |
           echo "dont look!"
           echo ${{ secrets.AUTOMATION_APP_ID }}
           echo ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
