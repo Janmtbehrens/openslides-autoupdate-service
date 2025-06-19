@@ -6,7 +6,7 @@ on:
 
 jobs:
   pull_request_review_requested:
-    name: Pull request review requested
+    name: Pull request review requested old
     uses: ./.github/workflows/project-automation.yml
     secrets: inherit
     with:
