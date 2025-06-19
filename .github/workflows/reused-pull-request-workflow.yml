@@ -8,7 +8,7 @@ on:
 
 jobs:
   project-automation-calls:
-    uses: Janmtbehrens/OpenSlides/.github/workflows/reusable-pull_request-workflow@reusable-github-actions
+    uses: Janmtbehrens/OpenSlides/.github/workflows/reusable-pull_request-workflow.yml@reusable-github-actions
     with:
       action_type: ${{ github.event.action }}
       pull_request_merged: ${{ github.event.pull_request.merged }}
