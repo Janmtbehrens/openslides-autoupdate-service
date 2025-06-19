@@ -21,7 +21,7 @@ jobs:
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'staging') &&
       ${{ github.event.branches == "main" }}
-    uses: Janmtbehrens/OpenSlides/dev/workflows/pick-to-staging@reusable-github-actions
+    uses: Janmtbehrens/OpenSlides/dev/workflows/pick-to-staging-service@reusable-github-actions
     secrets: inherit
     with:
       branches: "main"
