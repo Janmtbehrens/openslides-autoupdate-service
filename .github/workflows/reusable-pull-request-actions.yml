@@ -1,0 +1,61 @@
+on:
+  pull_request_target:
+    types:
+      - closed
+      - opened
+      - reopened
+      - review_requested
+
+jobs:
+  close-issues:
+    name: Close issues
+    if: github.event.pull_request.merged && ${{ github.event.branches == "feature/*" }}
+    uses: Janmtbehrens/OpenSlides/dev/workflows/close-issues@reusable-github-actions
+    secrets: inherit
+    with:
+      branches: "feature/*"
+  
+  create-pr-for-staging:
+    name: Close issues
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'staging') &&
+      ${{ github.event.branches == "main" }}
+    uses: Janmtbehrens/OpenSlides/dev/workflows/pick-to-staging@reusable-github-actions
+    secrets: inherit
+    with:
+      branches: "main"
+
+  project-pull-requests:
+    runs-on: ubuntu:latest
+    steps:
+      name: Pull request closed
+      if: ${{ github.event.action == "closed" }}
+      uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
+      with:
+        resource_node_id: ${{ github.event.pull_request.node_id }}
+        status_value: "Done"
+        gh_app_ID: ${{ secrets.AUTOMATION_APP_ID }}
+        gh_app_installation_ID: ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
+        gh_app_secret_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+      
+      name: Pull request opened
+      if: ${{ github.event.action == "opened" || github.event.action == "reopened" }}
+      uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
+      with:
+        resource_node_id: ${{ github.event.pull_request.node_id }}
+        status_value: "Backlog"
+        gh_app_ID: ${{ secrets.AUTOMATION_APP_ID }}
+        gh_app_installation_ID: ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
+        gh_app_secret_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+      
+      name: Close pull request
+      if: ${{ github.event.action == "review_requested" }}
+      uses: Janmtbehrens/OpenSlides/dev/actions/project-automation@reusable-github-actions
+      with:
+        resource_node_id: ${{ github.event.pull_request.node_id }}
+        status_value: "Review in progress"
+        gh_app_ID: ${{ secrets.AUTOMATION_APP_ID }}
+        gh_app_installation_ID: ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
+        gh_app_secret_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
