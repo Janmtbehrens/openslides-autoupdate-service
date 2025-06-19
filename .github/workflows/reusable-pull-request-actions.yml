@@ -26,18 +26,6 @@ jobs:
     with:
       branches: "main"
 
-  test-secrets:
-    runs-on: ubuntu:latest
-    name: Tests
-    steps:
-      - name: Tests
-        shell: bash
-        run: |
-          echo "dont look!"
-          echo ${{ secrets.AUTOMATION_APP_ID }}
-          echo ${{ secrets.AUTOMATION_APP_INSTALLATION_ID }}
-          echo ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-
   project-pull-requests:
     runs-on: ubuntu:latest
     secrets: inherit
