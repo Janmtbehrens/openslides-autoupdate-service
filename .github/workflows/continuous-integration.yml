@@ -6,19 +6,18 @@ jobs:
     runs-on: ubuntu:latest
     name: Tests
     steps:
-    # https://stackoverflow.com/questions/58033366/how-to-get-the-current-branch-within-github-actions
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
+      - uses: Janmtbehrens/OpenSlides/dev/actions/branch-regex@reusable-github-actions
+        with:
+          regex: reusable-github-*
+        id: regex_match
 
       - name: Test branch
-        if: startsWith('${{ steps.extract_branch.outputs.branch}}', '${{ inputs.branches }}')
+        if: startsWith('${{ steps.regex_match.outputs.match}}', 'reusable-github-*')
         run: echo "Branch worked"
 
       - name: Checks
         run: |
-          echo "${{ steps.extract_branch.outputs.branch}}"
+          echo "${{ steps.regex_match.outputs.match }}"
           echo "${{ inputs.branches }}"
           
 
@@ -40,7 +39,7 @@ jobs:
         run: |
           echo "${{ steps.extract_branch.outputs.branch}}"
           echo "${{ inputs.branches }}"
-          
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
