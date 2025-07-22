@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/OpenSlides/openslides-autoupdate-service/internal/restrict/perm"
 	"github.com/OpenSlides/openslides-go/datastore/dsfetch"
+	"github.com/OpenSlides/openslides-go/perm"
 	"github.com/OpenSlides/openslides-go/set"
 )
 
@@ -22,6 +22,8 @@ import (
 //	    Else: (a permission string): The user needs the permission
 //
 //	and - for amendments (lead_motion_id != null) - the user can also see the lead motion.
+//
+//	Admins in a meeting can see all motions.
 //
 // Mode A: The user can see the motion or the containing meeting is not closed and the user
 // can see a referenced motion in motion/all_origin_ids and motion/all_derived_motion_ids.
@@ -80,6 +82,10 @@ func (m Motion) see(ctx context.Context, ds *dsfetch.Fetch, motionIDs ...int) ([
 			perms, err := perm.FromContext(ctx, meetingID)
 			if err != nil {
 				return nil, fmt.Errorf("getting permissions: %w", err)
+			}
+
+			if perms.IsAdmin() {
+				return ids, nil
 			}
 
 			lockedMeeting, err := ds.Meeting_LockedFromInside(meetingID).Value(ctx)
